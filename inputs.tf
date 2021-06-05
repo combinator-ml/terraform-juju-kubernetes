@@ -19,6 +19,8 @@ variable "description" {
   default = "Bundle description"
 }
 
+// of the form: https://github.com/mlopsworks/charms/blob/main/bundle.yaml
+
 variable "applications" {
   type = map(map(any))
   default = {}

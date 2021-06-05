@@ -4,6 +4,7 @@ resource "random_id" "random" {
 
 resource "local_file" "kubeconfig" {
     content = var.kubeconfig
+    filename = "${path.module}/${random_id.random.hex}/kubeconfig"
 }
 
 resource "local_file" "bundle_yaml" {

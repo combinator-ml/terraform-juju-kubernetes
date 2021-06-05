@@ -24,9 +24,9 @@ resource "null_resource" "testfaster_vm" {
             cd ${path.module}/${random_id.random.hex}
             export KUBECONFIG=$(pwd)/kubeconfig
             snap install juju --classic --channel=2.9/stable
-            juju add-k8s --client k8s
-            juju bootstrap k8s
-            juju deploy bundle.yaml
+            /snap/bin/juju add-k8s --client k8s
+            /snap/bin/juju bootstrap k8s
+            /snap/bin/juju deploy bundle.yaml
         EOT
     }
 }

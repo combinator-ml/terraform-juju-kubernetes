@@ -1,0 +1,33 @@
+resource "random_id" "random" {
+    byte_length = 8
+}
+
+resource "local_file" "kubeconfig" {
+    content = var.kubeconfig
+}
+
+resource "local_file" "bundle_yaml" {
+    content = yamlencode({
+      "applications": var.applications,
+      "bundle": var.bundle,
+      "description": var.description,
+      "relations": var.relations,
+    })
+    filename = "${path.module}/${random_id.random.hex}/bundle.yaml"
+}
+
+resource "null_resource" "testfaster_vm" {
+    depends_on = [local_file.bundle_yaml, local_file.kubeconfig]
+    provisioner "local-exec" {
+        command = <<-EOT
+            cd ${path.module}/${random_id.random.hex}
+            export KUBECONFIG=$(pwd)/kubeconfig
+            snap install juju --classic --channel=2.9/stable
+            juju add-k8s --client k8s
+            juju bootstrap k8s
+            juju deploy bundle.yaml
+        EOT
+    }
+}
+
+// TODO: outputs, such as DNS names for services created?

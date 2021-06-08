@@ -25,11 +25,7 @@ resource "null_resource" "testfaster_vm" {
             export KUBECONFIG=$(pwd)/kubeconfig
             snap install juju --classic --channel=2.9/stable
             /snap/bin/juju add-k8s --client k8s
-            (
-                sleep 60
-                kubectl logs -f -n controller-k8s controller-0 api-server
-            ) &
-            /snap/bin/juju bootstrap k8s --debug
+            /snap/bin/juju bootstrap k8s
             /snap/bin/juju deploy bundle.yaml
         EOT
     }

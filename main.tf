@@ -26,7 +26,7 @@ resource "null_resource" "testfaster_vm" {
             snap install juju --classic --channel=2.9/stable
             /snap/bin/juju add-k8s --client k8s
             /snap/bin/juju bootstrap k8s
-            /snap/bin/juju deploy bundle.yaml
+            /snap/bin/juju deploy ./bundle.yaml
         EOT
     }
 }
